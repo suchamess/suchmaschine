@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+    <h:head>
+        <title>Projekt Suchmaschine</title>
+    </h:head>
+
+    <h:body>
+        <h:form id="form" enctype="multipart/form-data">
+            <div style="height:75px; border: 1px solid #aaaaaa; background-color: slateblue; padding-top: 10px; padding-left: 10px;">
+                <p:outputLabel style="font-size: 32px;">Suchmaschine V1.0</p:outputLabel>
+            </div>
+            <div>
+                <div style="display: table-cell">
+                    <p:selectOneListbox id="advanced" value="#{testButtonView.current}" filter="true" filterMatchMode="contains"
+                                        style="height:809px; width:500px;font-size: 16px; margin-right: 5px;">
+                        <f:selectItems value="#{testButtonView.lexikon}" var="wort" itemLabel="#{wort.getWortlaut()}" itemValue="#{wort}"/>
+                        <p:ajax event="click" process="advanced" update="basic"/>
+                    </p:selectOneListbox>
+                </div>
+
+                <div style="display: table-cell">
+                    <p:outputPanel style="border: 1px solid #aaaaaa; width: 800px; height: 750px; margin-bottom:5px; overflow-y: scroll;"
+                                   rendered="true">
+                        <p:outputLabel id="text"
+                                       style="font-size: 16px;">#{testButtonView.text}
+                        </p:outputLabel>
+                        <p:outputLabel id="text2"
+                                       style="font-size: 16px;"><b>#{testButtonView.text2}</b>
+                        </p:outputLabel>
+                        <p:outputLabel id="text3"
+                                       style="font-size: 16px;">#{testButtonView.text3}
+                        </p:outputLabel>
+                    </p:outputPanel>
+
+                    <p:fileUpload fileUploadListener="#{testButtonView.handleFileUpload}" 
+                                  label="Upload File" 
+                                  multiple="true" 
+                                  allowTypes="/(\.|\/)(txt)$/"
+                                  sizeLimit="100000" 
+                                  update="advanced"/>
+                </div>
+
+                <div style="display: table-cell">
+                    <p:selectOneListbox id="basic" value="#{testButtonView.selectedBeleg}"
+                                        converter="omnifaces.SelectItemsConverter"
+                                        style="font-size: 16px;height:809px; width:500px; margin-left:5px;">
+                        <f:selectItems value="#{testButtonView.belege}" var="beleg" itemLabel="#{beleg.belegName}" itemValue="#{beleg}" />
+                        <p:ajax event="click" process="@parent" update="text text2 text3"/>
+                    </p:selectOneListbox>
+                </div>
+            </div>                        
+
+        </h:form>
+    </h:body>
+
+</html>
